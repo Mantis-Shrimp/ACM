@@ -41,3 +41,76 @@ template<class T> inline void AMax(T &a,T b){if(a<b)a=b;}
 template<class T> inline T Min(T a,T b){return a>b?b:a;}
 template<class T> inline T Max(T a,T b){return a>b?a:b;}
 
+struct coin
+{
+  int d;
+  int c;
+  bool operator > (const coin & a) const
+  {
+    return d > a.d;
+  }
+};
+
+int n,c;
+struct coin coins[25];
+
+int main(int argc,char* argv[])
+{
+  //READ;
+  std::cin>>n>>c;
+  for(int i = 0 ; i < n ; i++)
+    {
+      std::cin>>coins[i].d>>coins[i].c;
+    }
+  sort(coins,coins+n,std::greater<coin>());
+
+  int r = 0;
+
+  for(int i = 0 ; i < n ; i++)
+    {
+      if(coins[i].d >= c)
+	{
+	  r = r + coins[i].c;
+	  coins[i].c = 0;
+	}
+    }
+
+  int tmp = 0;
+  
+  do
+    {
+      tmp = 0;
+      for(int i = 0 ; i < n ; i++)
+	{
+	  while(coins[i].c >= 1 && coins[i].d + tmp <= c)
+	    {
+	      coins[i].c -- ;
+	      tmp = tmp + coins[i].d;
+	    }
+	}
+      
+      if(tmp == c)
+	{
+	  r = r + 1;
+	  continue;
+	}
+
+      for(int i = n - 1; i >= 0 ; i--)
+	{
+	  while(coins[i].c >=1 &&  tmp < c )
+	    {
+	      coins[i].c --;
+	      tmp = tmp + coins[i].d;
+	    }
+	}
+
+      if(tmp >= c)
+	{
+	  r = r + 1;
+	}
+      
+    }while(tmp >= c );
+
+    std::cout<<r<<std::endl;
+  return 0;
+}

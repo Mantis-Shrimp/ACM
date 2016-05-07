@@ -15,6 +15,7 @@
 #include <iomanip>
 #include <bitset>
 #include <list>
+#include <climits>
 #include <ctime>
 using namespace std ;
 #define SET(arr, what)  memset(arr, what, sizeof(arr))
@@ -41,3 +42,45 @@ template<class T> inline void AMax(T &a,T b){if(a<b)a=b;}
 template<class T> inline T Min(T a,T b){return a>b?b:a;}
 template<class T> inline T Max(T a,T b){return a>b?a:b;}
 
+#define N_MAX 110000
+
+int n;
+struct e
+{
+  int t;
+  int d;
+  bool operator < (const e& a) const
+  {
+    return t * a.d < a.t * d ;
+  }
+};
+struct e cows[N_MAX];
+
+int main(int argc,char* argv[])
+{
+  //READ;
+SYNCOFF;
+  std::cin>>n;
+  int total_time = 0;
+  for(int i = 0 ; i < n ; i++)
+    {
+      //std::cin>>t[i]>>d[i];
+      //total_time = total_time + t[i];
+      std::cin >> cows[i].t >> cows[i].d;
+    }
+  
+  std::sort(cows,cows+n);
+
+  long long r = 0;
+  long long t = 0;
+
+  for(int i = 0 ; i < n ; i++)
+    {
+      r = r + cows[i].d * t * 2;
+      t = t + cows[i].t;
+      //std::cout<<r<<" "<<t<<std::endl;
+    }
+  
+  std::cout<<r<<std::endl;
+  return 0;
+}

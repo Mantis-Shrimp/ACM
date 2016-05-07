@@ -41,3 +41,47 @@ template<class T> inline void AMax(T &a,T b){if(a<b)a=b;}
 template<class T> inline T Min(T a,T b){return a>b?b:a;}
 template<class T> inline T Max(T a,T b){return a>b?a:b;}
 
+#define N_MAX 150
+
+
+int n;
+
+
+
+struct cmp
+{
+  bool operator ()(const double &a,const double &b)
+  {
+    return a < b ;
+  }
+};
+
+std::priority_queue<double,std::vector<double>,cmp> Q;
+int main(int argc,char* argv[])
+{
+  //READ;
+  std::cin>>n;
+  double tmp;
+  for(int i = 0 ; i < n ; i++)
+    {
+      std::cin>>tmp;
+      Q.push(tmp);
+    }
+
+  while(Q.size() >= 2 )
+    {
+      double a = Q.top();
+      Q.pop();
+      double b = Q.top();
+      Q.pop();
+
+
+      double tmp1 = 2 * sqrt(a * b );
+      Q.push(tmp1);
+    }
+  std::cout<<std::setiosflags(std::ios::fixed)<<setprecision(3)<<Q.top()<<std::endl;
+  return 0;
+}
+
+
+
