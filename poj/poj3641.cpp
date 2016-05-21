@@ -41,10 +41,44 @@ template<class T> inline void AMax(T &a,T b){if(a<b)a=b;}
 template<class T> inline T Min(T a,T b){return a>b?b:a;}
 template<class T> inline T Max(T a,T b){return a>b?a:b;}
 
+int IsPrime(long long m)
+    {
+	for(long long i = 2;i*i <= m ;i++)
+	    if(m%i == 0) return 0;
+	return 1;
+    }
 
+long long powermod(long long n,long long p,long long mod)
+    {
+	long long tmp = n % mod;
+	long long ret = 1;
+	while(p!=0)
+	    {
+		//tmp = (tmp * n) % mod;
+		if(p&1==1)
+		    ret = (ret * tmp) % mod;
+		p = p >> 1;
+		tmp = (tmp * tmp) % mod;
+	    }
+	return ret;
+    }
 
+int a,p;
 
-int main(int argc,char* argv[])
-{
-    return 0;
-}
+int main(int argc,char*argv[])
+    {
+#ifndef ONLINE_JUDGE
+	READ;
+#endif
+	while(std::cin>>p>>a && !(p==0&&a==0) )
+	    {
+		if(IsPrime(p))
+		    std::cout<<"no"<<std::endl;
+		else
+		    if(powermod(a,p,p)==a%p)
+			std::cout<<"yes"<<std::endl;
+		    else
+			std::cout<<"no"<<std::endl;
+	    }
+	return 0;
+    }

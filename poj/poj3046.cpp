@@ -42,9 +42,77 @@ template<class T> inline T Min(T a,T b){return a>b?b:a;}
 template<class T> inline T Max(T a,T b){return a>b?a:b;}
 
 
-
+int t,a,s,b;
+int dp[2][101000];
+int ni[1010];
 
 int main(int argc,char* argv[])
 {
+#ifndef ONLINE_JUDGE
+    READ;
+#endif
+    std::cin>>t>>a>>s>>b;
+    for(int i = 1 ; i <= a ; i++)
+    {
+	    int tmp = 0;
+	    std::cin>>tmp;
+	    ni[tmp]++;
+    }
+    memset(dp,0,sizeof(dp));
+    for(int i = 0 ; i < 1010 ; i++)
+	dp[i%2][0] = 1;
+    //dp[0][0] = 1;
+    for(int i = 1 ; i <= t ; i++)
+    {
+
+	    //if(j < ni[i])
+	    //	{
+	    //	    int tmp = 0;
+	    //	    for(int )
+	    //	}
+
+	    
+	    for(int j = 1; j <= b; j++)
+	    {
+		if(j  - 1 - ni[i] < 0)
+		{
+		    int tmp = 0;
+		    for(int k = 0 ; k <= ni[i] ; k++)
+		    {
+			if(j - k >= 0)
+			    tmp = (tmp + dp[(i-1)%2][j-k])%1000000;
+		    }
+		    dp[i%2][j] = tmp;
+		}
+		else
+		{
+		    dp[i%2][j] = (dp[i%2][j-1] + dp[(i-1)%2][j] - dp[(i-1)%2][j-1-ni[i]]  + 1000000  )%1000000;
+		}
+	    }
+
+//	{
+	    //	    if(j - 1 >= ni[i])
+	    //		dp[i][j] = dp[i][j-1] + dp[i-1][j-1] - dp[i-1][j-1-ni[i]];
+	    //	    else
+	    //		dp[i][j] = dp[i][j-1] + dp[i-1][j-1];
+	    //	}
+    }
+
+#ifndef ONLINE_JUDGE
+    for(int i = 0 ; i <= t ; i++)
+	{
+	    for(int j = 0 ; j <= b ; j++)
+		{
+		    std::cout<<dp[i%2][j]<<" ";
+		}
+	    std::cout<<std::endl;
+	}
+#endif
+
+
+    int ret = 0;
+    for(int i = s; i <= b ; i++)
+	ret = (ret + dp[t%2][i]) % 1000000;
+    std::cout<<ret <<std::endl;
     return 0;
 }

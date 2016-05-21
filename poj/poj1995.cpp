@@ -42,9 +42,41 @@ template<class T> inline T Min(T a,T b){return a>b?b:a;}
 template<class T> inline T Max(T a,T b){return a>b?a:b;}
 
 
+int z,m,h,ai,bi;
+
+
+long long powermod(long long n,long long p,long long mod)
+{
+    long long tmp = n % mod;
+    long long ret = 1;
+    while(p!=0)
+    {
+	//tmp = (tmp * n) % mod;
+	if(p&1==1)
+	    ret = (ret * tmp) % mod;
+	p = p >> 1;
+	tmp = (tmp * tmp) % mod;
+    }
+    return ret;
+}
 
 
 int main(int argc,char* argv[])
 {
-    return 0;
+#ifndef ONLINE_JUDGE
+    READ;
+#endif
+    std::cin>>z;
+    while(z--)
+    {
+	int ret = 0;
+	std::cin>>m;
+	std::cin>>h;
+	for(int i = 0 ; i < h ;i++)
+	    {
+		std::cin>>ai>>bi;
+		ret = (ret + powermod(ai,bi,m)) % m;
+	    }
+	std::cout<<ret<<std::endl;
+    }
 }
