@@ -1,18 +1,14 @@
 # ACM 模板
 
-
-## 最长递增子序列 （n×logn）
+## 最长递增子序列 \(n\log n\)
 ```c++
 for(int i = 0 ; i <= idx ; i++)
   dp[i] = INT_MAX;
-
 for(int i = 0 ; i < idx ; i++)
 {
     *lower_bound(dp + 1, dp + idx, l[i]) = l[i];
 }
-
 int ret = 0;
-
 for(int i = 1 ; i <= idx ; i++)
 {
     if(dp[i] == INT_MAX)
@@ -23,8 +19,7 @@ for(int i = 1 ; i <= idx ; i++)
 }
 ```
 
-## 最长递减子序列 （n×n）
-
+## 最长递减子序列 \(n^2\)
 ```c++
 int ret = 1;
 for(int i = 0 ; i < idx ; i++)
@@ -41,7 +36,7 @@ for(int i = 0 ; i < idx ; i++)
 }
 ```
 
-## 最长不增子序列 （n×n）
+## 最长不增子序列 \(n^2\)
 ```c++
 int ret = 1;
 for(int i = 0 ; i < m ; i++)
