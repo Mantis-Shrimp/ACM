@@ -40,13 +40,57 @@ template<class T> inline void AMin(T &a,T b){if(a>b)a=b;}
 template<class T> inline void AMax(T &a,T b){if(a<b)a=b;}
 
 
+#define N 5100000
 
+struct way
+{
+  int x;
+  int y;
+  bool operator < (const struct way & a) const
+  {
+    return x < a.x;
+  }
+};
+
+int dp[N],n;
+way ways[N];
 
 int main(int argc,char* argv[])
 {
-    #ifdef DEBUG
-    READ;
-    SYNCOFF;
-    #endif
-    return 0;
+#ifdef DEBUG
+  READ;
+  //SYNCOFF;
+#endif
+  int cnt = 1;
+  while(scanf("%d",&n)!=EOF)
+    {
+      for(int i = 0 ; i < n ; i++)
+	{
+	  //std::cin>>ways[i].x>>ways[i].y;
+	  scanf("%d%d",&ways[i].x,&ways[i].y);
+	}
+      
+
+      std::sort(ways,ways+n,std::less<way>());
+
+
+
+      for(int i = 0 ; i < N ; i++)
+	dp[i] = INT_MAX;
+      for(int i = 0 ; i < n ; i++)
+	{
+	  *std::lower_bound(dp + 1, dp + n, ways[i].y) = ways[i].y;
+	}
+      int ret = 1;
+      while(dp[ret] != INT_MAX)
+	ret ++ ;
+      ret = ret - 1;
+	
+      std::cout<<"Case "<<cnt++<<":"<<std::endl;
+      if(ret == 1)
+	std::cout<<"My king, at most "<<ret<<" road can be built.\n\n";
+      if(ret > 1)
+	std::cout<<"My king, at most "<<ret<<" roads can be built.\n\n";
+    }
+  return 0;
 }

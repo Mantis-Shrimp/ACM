@@ -3,6 +3,8 @@
 #include <cstring>
 #include <cstdio>
 #include <cmath>
+#include <ctime>
+#include <climits>
 #include <algorithm>
 #include <vector>
 #include <string>
@@ -15,8 +17,7 @@
 #include <iomanip>
 #include <bitset>
 #include <list>
-#include <ctime>
-using namespace std ;
+#include <utility>
 #define SET(arr, what)  memset(arr, what, sizeof(arr))
 #define FF(i, s, e)     for(int i=s; i<e; i++)
 #define SD(a)           scanf("%d", &a)
@@ -35,16 +36,16 @@ using namespace std ;
 #define ESP             1e-5
 #define lson            l, m, rt<<1
 #define rson            m+1, r, rt<<1|1
-template<class T> inline T sqr(T a){return a*a;}
 template<class T> inline void AMin(T &a,T b){if(a>b)a=b;}
 template<class T> inline void AMax(T &a,T b){if(a<b)a=b;}
-template<class T> inline T Min(T a,T b){return a>b?b:a;}
-template<class T> inline T Max(T a,T b){return a>b?a:b;}
 
 
 
 
 int main(int argc,char* argv[])
 {
+    #ifdef DEBUG
+    READ;
+    #endif
     return 0;
 }

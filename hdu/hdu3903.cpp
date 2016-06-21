@@ -44,9 +44,21 @@ template<class T> inline void AMax(T &a,T b){if(a<b)a=b;}
 
 int main(int argc,char* argv[])
 {
-    #ifdef DEBUG
-    READ;
-    SYNCOFF;
-    #endif
-    return 0;
+    int T;
+    std::cin>>T;
+    while(T--)
+    {
+      long long a,b,c,n,m,k;
+      std::cin>>a>>b>>c>>n>>m>>k;
+      long long sa,sb,sc;
+      sa=(2*b*c)*(2*b*c)-(b*b+c*c-a*a)*(b*b+c*c-a*a);
+      sb=(2*a*c)*(2*a*c)-(a*a+c*c-b*b)*(a*a+c*c-b*b);
+      sc=(2*a*b)*(2*a*b)-(a*a+b*b-c*c)*(a*a+b*b-c*c);
+      long long la=sqrt(sa),lb=sqrt(sb),lc=sqrt(sc);
+      if(la*la==sa&&lb*lb==sb&&lc*lc==sc)
+        std::cout<<"YES\n";
+      else
+        std::cout<<"NO\n";
+    }
+      return 0;
 }

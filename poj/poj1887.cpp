@@ -36,17 +36,75 @@
 #define ESP             1e-5
 #define lson            l, m, rt<<1
 #define rson            m+1, r, rt<<1|1
+template<class T> inline T sqr(T a){return a*a;}
 template<class T> inline void AMin(T &a,T b){if(a>b)a=b;}
 template<class T> inline void AMax(T &a,T b){if(a<b)a=b;}
 
+#define N 100000
 
-
+int dp[N],m[N],n;
 
 int main(int argc,char* argv[])
 {
     #ifdef DEBUG
     READ;
-    SYNCOFF;
     #endif
+    int cnt = 0;
+    while(1)
+      {
+	int tmp;
+	std::cin>>tmp;
+
+	if(tmp == -1)
+	  break;
+
+	n = 0;
+	m[n] = tmp;
+	n = n + 1;
+	cnt = cnt + 1;
+	while(1)
+	  {
+	    std::cin>>tmp;
+	    if(tmp == -1)
+	      break;
+	    m[n] = tmp;
+	    n = n + 1;
+	  }
+
+#ifdef DEBUG
+	for(int i = 0 ; i < n ; i++)
+	  std::cout<<m[i]<<" ";
+	std::cout<<std::endl;
+#endif
+
+	memset(dp,0,sizeof(dp));
+
+	for(int i = 0; i < n ; i++)
+	  {
+	    *std::upper_bound(dp+1,dp+1+n,m[i],std::greater<int>()) = m[i] ;
+	  }
+
+#ifdef DEBUG
+	int tmpi = 1;
+	while(dp[tmpi] != 0 )
+	  {
+	    std::cout<<dp[tmpi]<<" ";
+	    tmpi++;
+	  }
+	std::cout<<std::endl;
+
+	std::cout<<"n = "<<n<<"\n";
+#endif
+	
+	int ret = 1;
+	while(dp[ret] != 0)
+	  {
+	    ret++;
+	  }
+	std::cout<<"Test #"<<cnt<<":"<<std::endl;
+	std::cout<<"  maximum possible interceptions: "<<ret-1<<std::endl;
+	std::cout<<std::endl;
+	
+      }
     return 0;
 }
