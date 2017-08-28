@@ -1,112 +1,51 @@
-# ACM 模板
-
-## 状态压缩
-
-```c++
-0; //空集
-i<<i; //只含第i的元素的集合{i}
-(1<<n)-1;//含有全部i个元素的集合{0,1,2,3,...,n-1}
-if(S>>i & 1); //判断第i个元素是否属于集合sp
-S|1<<i;//向集合S中加入第i个元素
-S&~(1<<i);//从集合S中去除第i个元素
-S|T;//集合S与集合T的并
-S&T;//集合S与集合T的交
-
-for(int i = 0 ; i < 1 << n ; i++) //枚举集合{0,1,2,3,...,n-1}的全部子集
-{
-  ;//对子集的处理
-}
-
-```
-
-
-
-
-## 最长不升子序列\(n \log n\)
-
-```c++
-//m[0,1,2,3....,n-1] 输入的原始序列
-//dp[i]表示长度为i的子序列的最后一个元素的最大值
-memset(dp,0,sizeof(dp));
-for(int i = 0; i < n ; i++)
-  {
-    *std::upper_bound(dp+1,dp+1+n,m[i],std::greater<int>()) = m[i];
-  }
-int ret = 1;
-while(dp[ret] != 0)
-  {
-    ret++;
-  }
-  ret = ret -1;
-
-```
-
-## 最长递增子序列 \(n\log n\)
-```c++
-//l[0,1,2,3....,n-1] 输入的原始序列
-//dp[i]表示长度为i的子序列的最后一个元素可以允许的最小值
-for(int i = 0 ; i <= idx ; i++)
-  dp[i] = INT_MAX;
-for(int i = 0 ; i < idx ; i++)
-{
-    *lower_bound(dp + 1, dp + idx, l[i]) = l[i];
-}
-int ret = 1;
-while(dp[ret]!=INT_MAX)
-  ret++;
-ret = ret - 1;
-```
-
-## 最长递减子序列 \(n^2\)
-
-```c++
-int ret = 1;
-for(int i = 0 ; i < idx ; i++)
-{
-    for(int j = 1 ; j <= ret ; j++)
-    {
-        if(p[i].y >= dp[j])
-        {
-            dp[j] = p[i].y;
-            break;
-        }
-    }
-    if(dp[ret] != 0 ) ret = ret + 1;
-}
-ret = ret -1;
-```
-
-## 最长不增子序列 \(n^2\)
-```c++
-int ret = 1;
-for(int i = 0 ; i < m ; i++)
-{
-    for(int j = 1; j <= ret ; j++ )
-    {
-        if( dp[j] < dolls[i].h )
-        {
-            dp[j] = dolls[i].h;
-            break;
-        }
-    }
-    if(dp[ret] != 0 ) ret ++;
-}
-ret = ret -1;
-```
-
-
-
-## 其他
-
-### 完全高精度
-
-```c++
-//HDU 1134 求卡特兰数
-#include <iostream>
-#include <stdio.h>
+#include <cstdlib>
+#include <cctype>
+#include <cstring>
+#include <cstdio>
+#include <cmath>
 #include <algorithm>
-#include <string.h>
-using namespace std;
+#include <vector>
+#include <string>
+#include <iostream>
+#include <sstream>
+#include <set>
+#include <queue>
+#include <stack>
+#include <fstream>
+#include <iomanip>
+#include <bitset>
+#include <list>
+#include <ctime>
+#include <climits>
+using namespace std ;
+#define SET(arr, what)  memset(arr, what, sizeof(arr))
+#define FF(i, s, e)     for(int i=s; i<e; i++)
+#define SD(a)           scanf("%d", &a)
+#define SSD(a, b)       scanf("%d%d", &a, &b)
+#define SF(a)           scanf("%lf", &a)
+#define SS(a)           scanf("%s", a)
+#define SLD(a)          scanf("%lld", &a)
+#define PF(a)           printf("%d\n", a)
+#define PPF(a, b)       printf("%d %d\n", a, b)
+#define SZ(arr)         (int)arr.size()
+#define SWAP(a,b)       a=a xor b;b= a xor b;a=a xor b;
+#define READ            freopen("in.txt", "r", stdin)
+#define WRITE           freopen("fracdec.out", "w", stdout)
+#define SYNCOFF         std::ios_base::sync_with_stdio(false);
+#define MAX             1<<30
+#define ESP             1e-5
+#define lson            l, m, rt<<1
+#define rson            m+1, r, rt<<1|1
+template<class T> inline T sqr(T a){return a*a;}
+template<class T> inline void AMin(T &a,T b){if(a>b)a=b;}
+template<class T> inline void AMax(T &a,T b){if(a<b)a=b;}
+template<class T> inline T Min(T a,T b){return a>b?b:a;}
+template<class T> inline T Max(T a,T b){return a>b?a:b;}
+
+
+
+
+
 /*
 * 完全大数模板
 *输出cin>>a
@@ -119,31 +58,48 @@ using namespace std;
 
 class BigNum
 {
-  private:
-    int a[500]; //可以控制大数的位数
-    int len;
+private:
+  int a[100]; //可以控制大数的位数
+  int len;
+public:
+  BigNum(){len = 1;memset(a, 0, sizeof(a));}       //构造函数
+  BigNum(const int);                               //将一个int类型的变量转化成大数
+  BigNum(const char *);                            //将一个字符串类型的变量转化为大数
+  BigNum(const BigNum &);                          //拷贝构造函数
+  BigNum &operator=(const BigNum &);               //重载赋值运算符，大数之间进行赋值运算
+  friend istream &operator>>(istream &, BigNum &); //重载输入运算符
+  friend ostream &operator<<(ostream &, BigNum &); //重载输出运算符
 
-  public:
-    BigNum(){len = 1;memset(a, 0, sizeof(a));}       //构造函数
-    BigNum(const int);                               //将一个int类型的变量转化成大数
-    BigNum(const char *);                            //将一个字符串类型的变量转化为大数
-    BigNum(const BigNum &);                          //拷贝构造函数
-    BigNum &operator=(const BigNum &);               //重载赋值运算符，大数之间进行赋值运算
-    friend istream &operator>>(istream &, BigNum &); //重载输入运算符
-    friend ostream &operator<<(ostream &, BigNum &); //重载输出运算符
+  BigNum operator+(const BigNum &) const;          //重载加法运算符，两个大数之间的相加运算
+  BigNum operator-(const BigNum &) const;          //重载减法运算符，两个大数之间的相减运算
+  BigNum operator*(const BigNum &)const;           //重载乘法运算符，两个大数之间的相乘运算
+  BigNum operator/(const int &)const;              //重载除法运算符，大数对一个整数进行相除运算
+  BigNum operator^(const int &) const;             //大数的n次方运算
 
-    BigNum operator+(const BigNum &) const;          //重载加法运算符，两个大数之间的相加运算
-    BigNum operator-(const BigNum &) const;          //重载减法运算符，两个大数之间的相减运算 
-    BigNum operator*(const BigNum &)const;           //重载乘法运算符，两个大数之间的相乘运算 
-    BigNum operator/(const int &)const;              //重载除法运算符，大数对一个整数进行相除运算
-    BigNum operator^(const int &) const;             //大数的n次方运算
+  int operator%(const int &) const;                //大数对一个int类型的变量进行取模运算
+  bool operator>(const BigNum &T) const;           //大数和另一个大数的大小比较
+  bool operator>(const int &t) const;              //大数和一个int类型的变量的大小比较
 
-    int operator%(const int &) const;                //大数对一个int类型的变量进行取模运算
-    bool operator>(const BigNum &T) const;           //大数和另一个大数的大小比较
-    bool operator>(const int &t) const;              //大数和一个int类型的变量的大小比较
-
-    void print(); //输出大数
+  void print(); //输出大数
+  int32_t get_ret();
 };
+
+
+int32_t BigNum::get_ret()
+{
+  int32_t ret = 0;
+
+  for(int32_t i = 0 ; i <= this->len ; i++)
+    {
+      int32_t tmp = this->a[i];
+      while(tmp > 0)
+        {
+          ret = ret + (tmp % 10);
+          tmp = tmp / 10;
+        }
+    }
+  return ret;
+}
 
 BigNum::BigNum(const int b) //将一个int类型的变量转化为大数
 {
@@ -397,20 +353,101 @@ void BigNum::print() //输出大数
         printf("%04d", a[i]);
     printf("\n");
 }
-BigNum f[110]; //卡特兰数
+
+
+BigNum f[105];
 
 int main()
 {
-    f[0] = 1;
-    for (int i = 1; i <= 100; i++)
-        f[i] = f[i - 1] * (4 * i - 2) / (i + 1); //卡特兰数递推式
-    int n;
+
+  /*
+  1
+    Underflow!
+    2
+    Underflow!
+    3
+    Underflow!
+    4
+    Underflow!
+    5
+    Underflow!
+    6
+    Underflow!
+    7
+    Underflow!
+    8
+    40320
+    9
+    362880
+    10
+    3628800
+    11
+    39916800
+    12
+    479001600
+    13
+    6227020800
+    14
+    Overflow!
+    15
+    Overflow!
+  */
+
+
+
+  int n;
+
     while (scanf("%d", &n) == 1)
     {
-        if (n == -1)
-            break;
-        f[n].print();
+
+      if (n >= 14 || (n<0&&((n*-1)%2)==1) )
+        {
+          cout<<"Overflow!"<<std::endl;
+          continue;
+        }
+
+      if(n <= 7|| (n<0&&((n*-1)%2==0)))
+        {
+          cout<<"Underflow!"<<std::endl;
+          continue;
+        }
+
+      if(n == 8)
+        {
+          cout<<"40320"<<std::endl;
+          continue;
+        }
+
+      if(n == 9)
+        {
+          cout<<"362880"<<std::endl;
+          continue;
+        }
+
+      if(n == 10)
+        {
+          cout<<"3628800"<<std::endl;
+          continue;
+        }
+
+      if(n == 11)
+        {
+          cout<<"39916800"<<std::endl;
+          continue;
+        }
+
+      if(n == 12)
+        {
+          cout<<"479001600"<<std::endl;
+          continue;
+        }
+
+      if(n == 13)
+        {
+          cout<<"6227020800"<<std::endl;
+          continue;
+        }
+
     }
     return 0;
 }
-```

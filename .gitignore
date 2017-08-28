@@ -1,0 +1,11 @@
+# Ignore everything
+*
+# Except tex files
+!.gitignore
+!*.c
+!*.cpp
+!*.java
+!*.txt
+!*.rs
+# ... even if they are in subdirectories
+!*/
