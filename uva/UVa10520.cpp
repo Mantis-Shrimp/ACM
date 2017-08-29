@@ -1,4 +1,5 @@
 #include <cstdlib>
+//#include <cstdint>
 #include <cctype>
 #include <cstring>
 #include <cstdio>
@@ -17,7 +18,6 @@
 #include <list>
 #include <ctime>
 #include <climits>
-
 #define SET(arr, what)  memset(arr, what, sizeof(arr))
 #define FF(i, s, e)     for(int i=s; i<e; i++)
 #define SD(a)           scanf("%d", &a)
@@ -44,10 +44,94 @@ template<class T> inline T Max(T a,T b){return a>b?a:b;}
 
 
 
-using std::cin;
-using std::cout;
+
+
+
+int64_t a[25][25];
+int32_t n;
+
+
+int64_t get_a(int32_t i,int32_t j)
+{
+
+
+  if (a[i][j] != -1) return a[i][j];
+
+  int64_t ret = 0;
+
+  if(i < j)
+    {
+      int64_t tmp = 0;
+
+      for(int32_t k = i; k < j; k++)
+        {
+          if( get_a(i,k) + get_a(k+1,j)   >tmp  )
+            {
+              tmp = get_a(i,k) + get_a(k+1,j);
+            }
+        }
+
+      ret = tmp;
+    }
+
+  if(i >= j)
+    {
+      int64_t tmp1 = 0;
+
+      if(i < n)
+        {
+          int64_t tmp = 0;
+
+          for(int32_t k = i + 1; k <= n ; k++)
+            {
+              if (get_a(k,1) + get_a(k,j) > tmp)
+                tmp = get_a(k,1) + get_a(k,j);
+            }
+
+          tmp1 = tmp;
+
+        }
+      else
+        {
+          tmp1 = 0;
+        }
+
+
+      int64_t tmp2 = 0;
+
+      if(j > 0)
+        {
+          int64_t tmp = 0;
+
+          for(int32_t k = 1 ; k < j ; k++)
+            {
+              if(tmp < get_a(i,k) + get_a(n,k))
+                tmp = get_a(i,k) + get_a(n,k);
+            }
+
+          tmp2 = tmp;
+        }
+      else
+        {
+          tmp2 = 0;
+        }
+
+      ret = tmp2 + tmp1;
+    }
+
+
+  return a[i][j] = ret;
+}
+
 
 int32_t main(int32_t argc,char* argv[])
 {
-    return 0;
+  memset(a, -1, sizeof(a));
+  while(std::cin>>n)
+    {
+      std::cin>>a[n][1];
+      std::cout<<get_a(1,n)<<std::endl;
+      memset(a,-1,sizeof(a));
+    }
+  return 0;
 }

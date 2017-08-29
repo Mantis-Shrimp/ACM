@@ -1,4 +1,5 @@
 #include <cstdlib>
+#include <cstdint>
 #include <cctype>
 #include <cstring>
 #include <cstdio>
@@ -17,7 +18,7 @@
 #include <list>
 #include <ctime>
 #include <climits>
-
+using namespace std ;
 #define SET(arr, what)  memset(arr, what, sizeof(arr))
 #define FF(i, s, e)     for(int i=s; i<e; i++)
 #define SD(a)           scanf("%d", &a)
@@ -43,11 +44,58 @@ template<class T> inline T Min(T a,T b){return a>b?b:a;}
 template<class T> inline T Max(T a,T b){return a>b?a:b;}
 
 
+uint64_t dp[100][100];
 
-using std::cin;
-using std::cout;
-
-int32_t main(int32_t argc,char* argv[])
+uint64_t  get_trib(int32_t n, int32_t back)
 {
-    return 0;
+
+
+
+  uint64_t ret = 0;
+
+  if(n<=0) return 1;
+  if(n==1) return 1;
+
+
+  if(dp[n][back] != -1)
+    return dp[n][back];
+
+
+  for(int32_t i = 1; i <= back; i++)
+    ret += get_trib(n-i,back);
+
+
+  ret = ret + 1;
+  return dp[n][back] = ret;
 }
+
+
+int32_t main(void)
+{
+  int32_t t = 0;
+  int32_t n,back;
+  while(true)
+    {
+
+      t = t + 1;
+      std::cin>>n>>back;
+
+      if(n > 60)
+        {
+          return 0;
+        }
+
+      for(int32_t i = 0 ; i <= n ; i++)
+        {
+          for(int32_t j = 0 ; j <= back ; j++)
+            {
+              dp[i][j] = -1;
+            }
+        }
+
+      std::cout<<"Case "<<t<<": "<<get_trib(n, back)<<std::endl;
+    }
+}
+
+
+

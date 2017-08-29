@@ -46,8 +46,27 @@ template<class T> inline T Max(T a,T b){return a>b?a:b;}
 
 using std::cin;
 using std::cout;
+using std::endl;
+
+
+int64_t len[55];
+int32_t n;
 
 int32_t main(int32_t argc,char* argv[])
 {
-    return 0;
+  len[0] = 0;
+  len[1] = 1;
+  len[2] = 2;
+  len[3] = 3;
+
+  for(int32_t i = 4 ; i < 51 ; i++)
+    len[i] = len[i-1] + len[i-2];
+
+
+
+  while(cin>>n  && n > 0)
+    {
+      cout<<len[n]<<endl;
+    }
+  return 0;
 }
