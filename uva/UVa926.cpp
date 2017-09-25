@@ -19,7 +19,6 @@
 #include <climits>
 #include <array>
 
-
 #define SET(arr, what)  memset(arr, what, sizeof(arr))
 #define FF(i, s, e)     for(int i=s; i<e; i++)
 #define SD(a)           scanf("%d", &a)
@@ -53,7 +52,66 @@ inline bool is_in_square(T x, T y,T minw, T minh, T maxw ,T maxh)
     return false;
 }
 
+
+
+int32_t c = 0;
+
 int32_t main(int32_t argc,char* argv[])
 {
-    return 0;
+  std::cin>>c;
+
+  for(int32_t t = 0 ; t < c ; t++)
+    {
+      int32_t n = 0;
+      int32_t startx,starty,endx,endy;
+      std::cin >> n >> startx >> starty >> endx >>endy;
+
+      std::vector<std::vector<int32_t> > m(n + 1,std::vector<int32_t>(n + 1,0));
+      std::vector<std::vector<std::array<int32_t,2> > > r(n + 1,std::vector<std::array<int32_t,2> >(n + 1,{0,0}));
+      std::vector<std::vector<int64_t> > dp(n + 1,std::vector<int64_t>(n + 1,0));
+
+      int32_t w,px,py;
+      char ch;
+      std::cin >> w;
+      for(int32_t i = 0 ; i < w ; i++)
+        {
+          std::cin >> px >>py;
+
+          scanf(" %c",&ch);
+          if(ch == 'S')
+            {
+              r[px][py][0] = 1;
+            }
+
+          if(ch == 'N')
+            {
+              r[px][py+1][0] = 1;
+            }
+
+          if(ch == 'W')
+            {
+              r[px][py][1] = 1;
+            }
+
+          if(ch == 'E')
+            {
+              r[px+1][py][1] = 1;
+            }
+        }
+
+      dp[startx][starty] = 1;
+
+      for(int32_t i =  starty; i < endy + 1 ; i++)
+        {
+          for(int32_t j = startx; j < endx + 1; j++ )
+            {
+              if(  r[j][i][0] != 1)  dp[j][i] = dp[j][i] + dp[j][i-1];
+              if(  r[j][i][1] != 1)  dp[j][i] = dp[j][i] + dp[j-1][i];
+            }
+        }
+      std::cout<<dp[endx][endy]<<std::endl;
+
+    }
+
+  return 0;
 }
