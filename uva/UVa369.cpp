@@ -46,7 +46,29 @@ template<class T> inline bool is_in_square(T x, T y,T minw, T minh, T maxw ,T ma
     return false;
 }
 
+
+
+array<array<int,110>,110> C;
+
 int32_t main(int32_t argc,char* argv[])
 {
+  for(int32_t i = 1 ; i <= 100 ; i++)
+    C[i][1] = C[i][i + 1] = 1;
+
+  for(int32_t j = 2 ; j <= 100 ; j++)
+    {
+      for(int32_t i = 2 ; i <= j+1 ; i++)
+        {
+          C[j][i] = C[j-1][i] + C[j-1][i-1];
+        }
+    }
+
+  int32_t n,m;
+
+  while(cin>>n>>m && !(n== 0 && m == 0) )
+    {
+      cout<<n<<" things taken "<<m<<" at a time is "<<C[n][m+1]<<" exactly."<<endl;
+    }
+
   return 0;
 }
