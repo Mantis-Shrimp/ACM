@@ -96,7 +96,41 @@ ret = ret -1;
 
 
 
-## 其他
+## 数值方法
+
+### 快速幂
+
+```c++
+// b不能是負數
+int pow(int a, int b)   // aᵇ
+{
+    int x = 1;
+    while(b>0)
+    {
+        if (b & 1)
+            x =x * a;
+        a = a * a;
+        b = b / 2;
+    }
+    return x;
+}
+
+// b不能是負數
+uint32_t pow_mod(uint32_t a,uint32_t b ,uint32_t m)   // aᵇ mod m
+{
+  int32_t x = 1;
+  a = a % m;
+  while(b>0)
+    {
+      if (b & 1)
+        x =(x * a) % m;
+      a = (a * a) %m;
+      b = b / 2;
+    }
+  return x;
+}
+```
+
 
 ### 完全高精度
 
@@ -116,7 +150,8 @@ using namespace std;
 #define MAXN 9999
 #define MAXSIZE 1010
 #define DLEN 4
-
+using std::istream;
+using std::ostream;
 class BigNum
 {
   private:
@@ -133,8 +168,8 @@ class BigNum
     friend ostream &operator<<(ostream &, BigNum &); //重载输出运算符
 
     BigNum operator+(const BigNum &) const;          //重载加法运算符，两个大数之间的相加运算
-    BigNum operator-(const BigNum &) const;          //重载减法运算符，两个大数之间的相减运算 
-    BigNum operator*(const BigNum &)const;           //重载乘法运算符，两个大数之间的相乘运算 
+    BigNum operator-(const BigNum &) const;          //重载减法运算符，两个大数之间的相减运算
+    BigNum operator*(const BigNum &)const;           //重载乘法运算符，两个大数之间的相乘运算
     BigNum operator/(const int &)const;              //重载除法运算符，大数对一个整数进行相除运算
     BigNum operator^(const int &) const;             //大数的n次方运算
 
