@@ -1,6 +1,5 @@
-# ACM 模板
 
-## 状态压缩
+# 状态压缩
 
 ```c++
 0; //空集
@@ -22,7 +21,7 @@ for(int i = 0 ; i < 1 << n ; i++) //枚举集合{0,1,2,3,...,n-1}的全部子集
 
 
 
-## 最长不升子序列\(n \log n\)
+# 最长不升子序列\(n \log n\)
 
 ```c++
 //m[0,1,2,3....,n-1] 输入的原始序列
@@ -41,7 +40,7 @@ while(dp[ret] != 0)
 
 ```
 
-## 最长递增子序列 \(n\log n\)
+# 最长递增子序列\(n\log n\)
 ```c++
 //l[0,1,2,3....,n-1] 输入的原始序列
 //dp[i]表示长度为i的子序列的最后一个元素可以允许的最小值
@@ -57,7 +56,7 @@ while(dp[ret]!=INT_MAX)
 ret = ret - 1;
 ```
 
-## 最长递减子序列 \(n^2\)
+# 最长递减子序列\(n^2\)
 
 ```c++
 int ret = 1;
@@ -76,7 +75,7 @@ for(int i = 0 ; i < idx ; i++)
 ret = ret -1;
 ```
 
-## 最长不增子序列 \(n^2\)
+# 最长不增子序列\(n^2\)
 ```c++
 int ret = 1;
 for(int i = 0 ; i < m ; i++)
@@ -96,9 +95,8 @@ ret = ret -1;
 
 
 
-## 数值方法
-
-### 快速幂
+# 数值方法
+## 快速幂
 
 ```c++
 // b不能是負數
@@ -132,7 +130,7 @@ uint32_t pow_mod(uint32_t a,uint32_t b ,uint32_t m)   // aᵇ mod m
 ```
 
 
-### 完全高精度
+## 完全高精度
 
 ```c++
 //HDU 1134 求卡特兰数
@@ -448,4 +446,51 @@ int main()
     }
     return 0;
 }
+```
+
+# 数据结构
+## Trie树
+```c++
+struct Trie
+{
+    int ch[maxnod][sigma_size];
+    int val[maxnod];// 附加信息
+    int prefix[maxnod];//记录前缀数目
+    int sz;//
+    Trie(){sz = 1;memset(ch[0],0,sizeof(ch[0]));};
+    int idx(char c) {return c - 'A';}
+    
+    //插入字符串s，附加信息v。
+    int insert(char* s,int v)
+    {
+        int u = 0, n = strlen(s);
+        for(int i = 0; i < n ; i++)
+        {
+            int c = idx(s[i]);
+            if(!ch[u][c])
+            {
+                memset(ch[sz],0,sizeof(ch[sz]));
+                val[sz] = 0;// 0表示中间结点
+                prefix[sz] = 0;
+                ch[u][c] = sz++;
+            }
+            u = ch[u][c];
+            prefix[u]++;
+        }
+        val[u] = v;
+    }
+
+    int find(char* s)
+    {
+        int u = 0,n = strlen(s);
+        for(int i = 0; i < n ; i++)
+        {
+            int c = idx(s[i]);
+            if(!ch[u][c]) return 0 ;
+            u = ch[u][c];
+        }
+        if(val[u]==0) return 0;
+        else return 1;
+    }
+};
 ```
